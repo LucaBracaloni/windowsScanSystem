@@ -15,7 +15,7 @@ title System Tool
 :::  /" \   :)  /   /    /" \   :)     \:  |   (:      "||.  \    /:  |        \:  |  \        /  \        /  ( \_|:  \  
 ::: (_______/  |___/    (_______/       \__|    \_______)|___|\__/|___|         \__|   \"_____/    \"_____/    \_______)                                                                                                                    
 :::
-:::                                     |  Versione Beta 1.1.0 - Created by Nub3  |                                                                                        
+:::                                     |  Versione Beta 1.0.0 - Created by Nub3  |                                                                                        
 
 
 :start                                             
@@ -34,16 +34,16 @@ title System Tool
     set /p choice="Choose an option:  "
 
     :: input validation number beetween 1 and 9   
-    if "%choice%" lss "1" if "%choice%" gtr "9" (
-        call :setSceltaNonValida
-        goto :askChoice
+    set "isValid=0"
+    for %%N in (1 2 3 4 5 6 7 8 9) do (
+        if "%choice%"=="%%N" set "isValid=1"
     )
 
-    :: Choice input control
-    if "%choice%" geq "1" if "%choice%" leq "9" (
+    if "%isValid%"=="1" (
         goto option%choice%
     ) else (
-        call :setSceltaNonValida
+        call :displayInvalidInputMessage
+        goto :start  :: Return to main menu after invalid input
     )
 
     :: ------------------------
@@ -53,59 +53,35 @@ title System Tool
     :option1
         sfc /scannow
         call :setHeaderLoading
-        echo.
-        pause
-        cls
-        goto :start
+        goto :postOptionCommand
 
     :option2
         systeminfo
-        echo.
-        pause
-        cls
-        goto :start
+        goto :postOptionCommand
 
     :option3
         wmic memorychip get capacity, caption, devicelocator, speed
-        echo.
-        pause
-        cls
-        goto :start
+        goto :postOptionCommand
 
     :option4
         wmic path win32_videocontroller get caption, adapterram, driverversion
-        echo.
-        pause
-        cls
-        goto :start
+        goto :postOptionCommand
 
     :option5
         ping google.com -n 4
-        echo.
-        pause
-        cls
-        goto :start
+        goto :postOptionCommand
 
     :option6
         ipconfig /all
-        echo.
-        pause
-        cls
-        goto :start
+        goto :postOptionCommand
 
     :option7
         tasklist
-        echo.
-        pause
-        cls
-        goto :start
+        goto :postOptionCommand
 
     :option8
         wmic baseboard get product, manufacturer, version
-        echo.
-        pause
-        cls
-        goto :start
+        goto :postOptionCommand
 
     :option9
         call :setHeaderExit
@@ -131,6 +107,12 @@ title System Tool
             echo        \-----------------------------------/
             echo.
             EXIT /B 0
+
+        :postOptionCommand
+            echo.
+            pause
+            cls
+            goto :start
 
         :setSceltaNonValida
             echo.
@@ -158,6 +140,10 @@ title System Tool
             echo         -            Loading...            -
             echo        \-----------------------------------/
             echo.
+            EXIT /B 0
+
+        :displayInvalidInputMessage
+            cls
             EXIT /B 0
 
         :setTimeExit
