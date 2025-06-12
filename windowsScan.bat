@@ -1,5 +1,5 @@
 @echo off
-:: Imposta il titolo della finestra
+:: window title name
 title System Tool
 
 :: ---------------------------
@@ -15,11 +15,11 @@ title System Tool
 :::  /" \   :)  /   /    /" \   :)     \:  |   (:      "||.  \    /:  |        \:  |  \        /  \        /  ( \_|:  \  
 ::: (_______/  |___/    (_______/       \__|    \_______)|___|\__/|___|         \__|   \"_____/    \"_____/    \_______)                                                                                                                    
 :::
-:::                                     |  Versione Beta 1.0.0 - Created by Nub3  |                                                                                        
+:::                                     |  Versione Beta 1.1.0 - Created by Nub3  |                                                                                        
 
 
 :start                                             
-:: script per visualizzare la ASCII art 
+:: script ASCII art
     for /f "delims=: tokens=*" %%A in ('findstr /b ":::" "%~f0"') do @echo(%%A 
 
 
@@ -33,23 +33,18 @@ title System Tool
     :askChoice
     set /p choice="Choose an option:  "
 
-    :: Validazione dell'input dell'utente per verificare che sia un numero compreso tra 1 e 9
-        if not "%choice%"=="1" if not "%choice%"=="2" if not "%choice%"=="3" if not "%choice%"=="4" if not "%choice%"=="5" if not "%choice%"=="6" if not "%choice%"=="7" if not "%choice%"=="8" if not "%choice%"=="9" (
-            call :setSceltaNonValida
-            goto :askChoice
-        )
+    :: input validation number beetween 1 and 9   
+    if "%choice%" lss "1" if "%choice%" gtr "9" (
+        call :setSceltaNonValida
+        goto :askChoice
+    )
 
     :: Choice input control
-        if "%choice%"=="1" goto option1
-        if "%choice%"=="2" goto option2
-        if "%choice%"=="3" goto option3
-        if "%choice%"=="4" goto option4
-        if "%choice%"=="5" goto option5
-        if "%choice%"=="6" goto option6
-        if "%choice%"=="7" goto option7
-        if "%choice%"=="8" goto option8
-        if "%choice%"=="9" goto option9
+    if "%choice%" geq "1" if "%choice%" leq "9" (
+        goto option%choice%
+    ) else (
         call :setSceltaNonValida
+    )
 
     :: ------------------------
     :: - MENU CHOICE CONTROL  -
